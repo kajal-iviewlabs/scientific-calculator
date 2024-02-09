@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sci calci</title>
+    <link rel="stylesheet" href="calci.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="display">
+        <input id="screen" type="text" placeholder="0" />
+      </div>
+
+      <div class="btns">
+        <div class="row">
+          <button onclick="toggleDegree()" id="degBtn" class="toggleBtn">
+            deg
+          </button>
+          <button onclick="toggleRadian()" id="radBtn" class="toggleBtn">
+            rad
+          </button>
+          <button onclick="mod()">mod</button>
+        </div>
+        <div class="row">
+          <button onclick="memoryClear()">MC</button>
+          <button onclick="memoryRecall()">MR</button>
+          <button onclick="memoryStore()">MS</button>
+          <button onclick="memoryAdd()">M+</button>
+          <button onclick="memorySubtract()">M-</button>
+          <button onclick="fact()">x!</button>
+        </div>
+
+        <div class="row">
+          <button id="ce" onclick="backspc()">CE</button>
+          <button onclick="fact()">x!</button>
+          <button class="btn">(</button>
+          <button class="btn">)</button>
+          <button class="btn">%</button>
+          <button id="ac" onclick="screen.value=''">AC</button>
+        </div>
+
+        <div class="row">
+          <button onclick="sin()">sin</button>
+          <button onclick="pi()">π</button>
+          <button class="btn">7</button>
+          <button class="btn">8</button>
+          <button class="btn">9</button>
+          <button class="btn">÷</button>
+        </div>
+
+        <div class="row">
+          <button onclick="cos()">cos</button>
+          <button onclick="log()">log</button>
+          <button class="btn">4</button>
+          <button class="btn">5</button>
+          <button class="btn">6</button>
+          <button class="btn">×</button>
+        </div>
+
+        <div class="row">
+          <button onclick="tan()">tan</button>
+          <button onclick="sqrt()">√</button>
+          <button class="btn">1</button>
+          <button class="btn">2</button>
+          <button class="btn">3</button>
+          <button class="btn">-</button>
+        </div>
+
+        <div class="row">
+          <button onclick="e()">e</button>
+          <button onclick="pow()">
+            x
+            <span style="position: relative; bottom: 0.4em; right: 0.1em"
+              >y</span
+            >
+          </button>
+          <button class="btn">0</button>
+          <button class="btn">.</button>
+          <button id="eval" onclick="result()">=</button>
+          <button class="btn">+</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var screen = document.querySelector("#screen");
+    var btn = document.querySelectorAll(".btn");
+    var memory = 0;
+    var degreeMode = true; // By default, calculator is in degree mode
+
+    for (item of btn) {
+      item.addEventListener("click", (e) => {
+        btntext = e.target.innerText;
+
+        if (btntext == "×") {
+          btntext = "*";
+        }
+
+        if (btntext == "÷") {
+          btntext = "/";
+        }
+        screen.value += btntext;
+      });
+    }
+
+    function result() {
+      try {
+        var result = eval(screen.value);
+        if (isNaN(result) || !isFinite(result)) {
+          throw "Invalid input or expression"; // Throw error for invalid input or expression
+        }
+        screen.value = result;
+      } catch (error) {
+        screen.value = "Error: " + error; // Display error message on the screen
+      }
+    }
+
+    function sin() {
+      if (degreeMode) {
+        screen.value = Math.sin((Math.PI / 180) * parseFloat(screen.value));
+      } else {
+        screen.value = Math.sin(parseFloat(screen.value));
+      }
+    }
+
+    function cos() {
+      if (degreeMode) {
+        screen.value = Math.cos((Math.PI / 180) * parseFloat(screen.value));
+      } else {
+        screen.value = Math.cos(parseFloat(screen.value));
+      }
+    }
+
+    function tan() {
+      if (degreeMode) {
+        screen.value = Math.tan((Math.PI / 180) * parseFloat(screen.value));
+      } else {
+        screen.value = Math.tan(parseFloat(screen.value));
+      }
+    }
+
+    function pow() {
+      screen.value = Math.pow(screen.value, 2);
+    }
+
+    function sqrt() {
+      screen.value = Math.sqrt(screen.value, 2);
+    }
+
+    function log() {
+      screen.value = Math.log(screen.value);
+    }
+
+    function pi() {
+      screen.value = 3.14159265359;
+    }
+
+    function e() {
+      screen.value = 2.71828182846;
+    }
+
+    function fact() {
+      var i, num, f;
+      f = 1;
+      num = screen.value;
+      for (i = 1; i <= num; i++) {
+        f = f * i;
+      }
+
+      i = i - 1;
+
+      screen.value = f;
+    }
+
+    function backspc() {
+      screen.value = screen.value.substr(0, screen.value.length - 1);
+    }
+
+    function memoryClear() {
+      memory = 0;
+    }
+
+    function memoryRecall() {
+      screen.value = memory;
+    }
+
+    function memoryStore() {
+      memory = parseFloat(screen.value);
+    }
+
+    function memoryAdd() {
+      memory += parseFloat(screen.value);
+    }
+
+    function memorySubtract() {
+      memory -= parseFloat(screen.value);
+    }
+
+    function toggleDegree() {
+      degreeMode = true;
+    }
+
+    function toggleRadian() {
+      degreeMode = false;
+    }
+
+    function numClick(num) {
+      screen.value += num;
+    }
+
+    function mod() {
+      var nums = screen.value.split("%");
+      var result = parseFloat(nums[0]) % parseFloat(nums[1]);
+      screen.value = result;
+    }
+  </script>
+</html>
